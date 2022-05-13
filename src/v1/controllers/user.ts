@@ -37,11 +37,11 @@ export async function currentUser(req: Request, res: Response, next: NextFunctio
         const user = await User.findOne({ username: req.params.username });
 
         if (!user) {
-            return res.status(NOT_FOUND).json({ message: "User not available" });
+            throw new ErrorResponse("User not available", NOT_FOUND);
         }
 
         res.status(200).json({ message: "User details retrieved", user });
     } catch (error) {
-        return next(error);
+        next(error);
     }
 }
