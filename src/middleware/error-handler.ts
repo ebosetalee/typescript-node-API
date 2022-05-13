@@ -3,32 +3,21 @@
 import { INTERNAL_SERVER_ERROR, NOT_FOUND, CONFLICT, PRECONDITION_FAILED } from "http-status";
 import logger from "../utils/logger";
 import { NextFunction, Request, Response } from "express";
-import ErrorResponse from "error/index";
 
-async function errorHandler({
-    err,
-    _req,
-    res,
-    next,
-}: {
-    err: ErrorResponse | any;
-    _req: Request;
-    res: Response;
-    next: NextFunction;
-}) {
+function errorHandler(err, req: Request, res: Response, next: NextFunction) {
     logger.error(err);
     const error = {
         code: err.code || INTERNAL_SERVER_ERROR,
         message: err.message || "Something went wrong try again later",
-        metadata: err.metadata
+        metadata: err.metadata,
     };
-
+    
     if (err.name == "ValidationError") {
         if (typeof err.message == "string") {
             error.message = err.message.replace(/"/g, "");
         } else {
             error.message = Object.values(err.errors)
-                .map((value: {message: string}): string => value.message)
+                .map((value: { message: string }): string => value.message)
                 .join(",");
         }
         error.code = PRECONDITION_FAILED;
@@ -45,7 +34,8 @@ async function errorHandler({
         }
         error.code = NOT_FOUND;
     }
-    return res.status(error.code).send(error);
+
+    res.status(error.code).json(error);
 }
 
 export default errorHandler;
