@@ -11,10 +11,19 @@
     "watch:tsc": "rm -rf ./dist && tsc --watch -p ./tsconfig.json",
     "build:tsc": "tsc -p ./tsconfig.json",
     "test": "jest",
-    "format": "npx prettier --write .",
-    "prepare": "husky install",
-    "prepare:husky": "npx husky add .husky/pre-commit 'npm run format\nnpm run lint:fix' "
+    "format": "prettier --config .prettierrc 'src/**/*.{js,ts,json,md}' --write",
+    "prepare": "rm -rf '.husky' && husky install && npm run prepare:husky",
+    "prepare:husky": "npx husky add .husky/pre-commit 'npm run format && npm run lint:fix && npm run test' "
   },
+  "_moduleAliases": {
+    "@root": "dist",
+    "@v1": "dist/v1",
+    "@routes": "dist/v1/routes",
+    "@controller": "dist/v1/controllers"
+  },
+  "_moduleDirectories": [
+    "node_modules_custom"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ebosetalee/typescript-node-API.git"
@@ -34,8 +43,10 @@
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.15.0",
+    "husky": "^8.0.1",
     "jest": "^28.1.0",
     "nodemon": "^2.0.16",
+    "prettier": "^2.6.2",
     "ts-jest": "^28.0.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"
@@ -46,6 +57,8 @@
     "@types/hapi__joi": "^17.1.8",
     "@types/http-status": "^1.1.2",
     "@types/joi": "^17.2.3",
+    "@types/module-alias": "^2.0.1",
+    "@types/nodemailer": "^6.4.4",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "dotenv": "^16.0.1",
@@ -53,7 +66,9 @@
     "http-status": "^1.5.2",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
     "mongoose": "^6.3.3",
+    "nodemailer": "^6.7.5",
     "winston": "^3.7.2"
   },
   "jest": {

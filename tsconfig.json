@@ -13,7 +13,13 @@
       "baseUrl": "./src",
       "typeRoots": ["./src/types", "./node_modules/@types"],
       "types": ["jest", "node"],
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "paths": {
+        "@root/*": ["*"],
+        "@v1/*": ["v1/*"],
+        "@routes/*": ["v1/routes/*"],
+        "@controller/*": ["v1/controllers/*"]
+    }
     },
     "exclude": ["src/**/*.test.ts", "src/**/mocks/*.ts"]
 }

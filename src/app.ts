@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import "module-alias/register";
 import "dotenv/config";
 import compression from "compression";
 import express from "express";
