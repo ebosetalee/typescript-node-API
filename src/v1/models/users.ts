@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required:  [true, "Please input you preferred username"],
+            required:  [true, "Please input you preferred password"],
             minlength: 8,
             select: false
         },
